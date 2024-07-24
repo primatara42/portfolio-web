@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const AddProject = ({ onClose }) => {
+  const [title, setTitle] = useState("");
+  const [documentation, setDocumentation] = useState("");
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const imageRef = ref(storage, `images/projects/${image.name}`);
+      await uploadBytes(imageRef, image);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      await addDoc(collection(db, "projects"), {
+        title: title,
+        documentation: documentation,
+        imgUrl: imageUrl,
+      });
+      alert("Projects added successfully!");
+      onClose();
+      navigate("/");
+    } catch (error) {
+      alert(`Error adding document: ${error}`);
+    }
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.id === "modal-container" || e.target.id === "button-cancel") {
+      e.preventDefault();
+      onClose();
+      navigate("/");
+    }
+  };
   return (
     <>
       <div
@@ -19,7 +55,7 @@ const AddProject = ({ onClose }) => {
               </label>
               <input
                 type="text"
-
+                onChange={(e) => setTitle(e.target.value)}
                 className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
               />
             </div>
@@ -44,18 +80,18 @@ const AddProject = ({ onClose }) => {
                 className="mt-1 w-full text-Paragraph"
               />
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end text-secondary">
               <button
                 id="button-cancel"
                 type="button"
                 onClick={handleOutsideClick}
-                className="mr-2 bg-gray-500 text-secondary px-4 py-2 rounded-md hover:bg-gray-700 duration-150 ease-in-out"
+                className="mr-2 bg-primary px-4 py-2 rounded-md transition hover:bg-gray-700 duration-150 ease-in-out"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-sky-500 text-secondary px-4 py-2 rounded-md hover:bg-sky-800 duration-150 ease-in-out"
+                className="bg-sky-500 px-4 py-2 rounded-md transition hover:bg-sky-800 duration-150 ease-in-out"
               >
                 Add Project
               </button>
