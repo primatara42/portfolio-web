@@ -7,7 +7,7 @@ import whatsappLogo from "../assets/icons/whatsapp_logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-bg-primary text-text-primary flex justify-between items-center p-10 sm:flex-col gap-y-5">
+    <footer className="bg-primary text-secondary flex justify-between items-center p-10 sm:flex-col gap-y-5">
       <div>© Prima Putra Agusantara - 2024</div>
       <div className="flex gap-10 sm:w-full justify-center">
         <a href="https://www.facebook.com/putra.prima2" target="_blank">

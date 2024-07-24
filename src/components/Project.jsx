@@ -5,7 +5,7 @@ const Project = () => {
   return (
     <section
       id="projects"
-      className="projects bg-bg-primary text-text-primary pt-36 pb-32 px-10"
+      className="projects bg-primary text-secondary pt-36 pb-32 px-10"
     >
       <h1 className="text-5xl text-center sm:text-4xl font-semibold mb-10">
         Projects
@@ -15,12 +15,11 @@ const Project = () => {
         this project includes several skills that I use
       </p>
       <div className="card_container flex flex-wrap justify-center gap-20">
-          <div className="card w-72 bg-text-primary rounded-xl">
+          <div className="card w-72 bg-secondary rounded-xl">
             <div
               className="image_container rounded-xl rounded-b-none w-full h-44 bg-cover bg-center"
-              style=''
             ></div>
-            <div className="desc_container text-bg-primary my-5 p-5">
+            <div className="desc_container text-primary my-5 p-5">
               <h2 className="text-center text-xl font-semibold md:text-lg px-5 mb-5">
                 Project Title
               </h2>
@@ -29,7 +28,7 @@ const Project = () => {
               </p>
               <a
                 href="#"
-                className="block text-xl bg-text-red w-fit p-3 rounded-lg m-auto text-text-primary font-semibold sm:text-lg justify-self-end-end hover:bg-text-red-hover duration-100 ease-in"
+                className="block text-xl bg-button w-fit p-3 rounded-lg m-auto text-secondary font-semibold sm:text-lg justify-self-end-end hover:bg-button-hover duration-100 ease-in"
                 target="_blank"
               >
                 See Documentation

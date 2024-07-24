@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="contact bg-bg-primary text-text-primary pt-40 pb-32 px-5"
+      className="contact bg-primary text-secondary pt-40 pb-32 px-5"
     >
       <h1 className="text-5xl text-center sm:text-4xl font-semibold mb-10">
         Contact Me
@@ -29,7 +29,7 @@ const Contact = () => {
             <input
               type="text"
               id="name_input"
-              className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-bg-primary"
+              className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-primary"
               required
             />
           </div>
@@ -40,7 +40,7 @@ const Contact = () => {
             <input
               type="email"
               id="email_input"
-              className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-bg-primary"
+              className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-primary"
 
              
               required
@@ -53,7 +53,7 @@ const Contact = () => {
             <textarea
               name=""
               id="message_input"
-              className="text-text-primary block w-full h-32 border-b-text-primary border-b-2 outline-none bg-bg-primary md:h-20"
+              className="text-text-primary block w-full h-32 border-b-text-primary border-b-2 outline-none bg-primary md:h-20"
             
               
               required
@@ -62,7 +62,7 @@ const Contact = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="block text-xl bg-text-red w-fit p-3 rounded-lg m-auto text-text-primary font-semibold sm:text-lg justify-self-end-end hover:bg-text-red-hover duration-100 ease-in"
+              className="block text-xl bg-button w-fit p-3 rounded-lg m-auto text-text-primary font-semibold sm:text-lg justify-self-end-end hover:bg-button-hover duration-100 ease-in"
             >
               Send your Message!
             </button>

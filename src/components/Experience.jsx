@@ -8,7 +8,7 @@ const Experience = () => {
     <>
       <section
         id="experience"
-        className="experience bg-bg-primary text-text-primary pt-36 pb-32 px-10"
+        className="experience bg-bg-primary text-secondary pt-36 pb-32 px-10"
       >
         <h1 className="text-5xl text-center sm:text-4xl font-semibold mb-10">
           My Experience
@@ -19,7 +19,7 @@ const Experience = () => {
         </p>
 
         <div className="card_container flex flex-wrap gap-20 justify-center">
-            <div className="card w-80 bg-text-primary text-bg-primary rounded-md hover:scale-110 ease-in duration-75 cursor-pointer">
+            <div className="card w-80 bg-secondary text-primary rounded-md hover:scale-110 ease-in duration-75 cursor-pointer">
               <div className="title_image w-36 h-36 mx-auto text-center  flex flex-col justify-center">
                 <img src='' alt="Experience Image" className="w-full" />
               </div>
