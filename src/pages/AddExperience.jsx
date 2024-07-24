@@ -1,6 +1,95 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
-const AddExperience = () => {
+const AddExperience = ({ onClose }) => {
+  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
+  const [time, setTime] = useState("");
+  const [startExperience, setStartExperience] = useState("");
+  const [endExperience, setEndExperience] = useState("");
+  const [type, setType] = useState("");
+  const [isCurrent, setIsCurrent] = useState(false);
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+
+  const formatDate = (date) => {
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const [year, month] = date.split("-");
+    return `${monthNames[parseInt(month, 10) - 1]} ${year}`;
+  };
+
+  useEffect(() => {
+    if (isCurrent) {
+      setTime(`${formatDate(startExperience)} - Now`);
+    } else {
+      setTime(`${formatDate(startExperience)} - ${formatDate(endExperience)}`);
+    }
+  }, [startExperience, endExperience, isCurrent]);
+
+  const handleCheckboxChange = () => {
+    setIsCurrent(!isCurrent);
+    if (!isCurrent) {
+      setEndExperience("Now");
+    } else {
+      setEndExperience("");
+    }
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.id === "modal-container" || e.target.id === "button-cancel") {
+      e.preventDefault();
+      onClose();
+      navigate("/");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const imageRef = ref(storage, `images/experiences/${image.name}`);
+      await uploadBytes(imageRef, image);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      await addDoc(collection(db, "experiences"), {
+        title: title,
+        name: name,
+        time: time,
+        type: type,
+        imgUrl: imageUrl,
+      });
+      alert("Experience added successfully!");
+      onClose();
+      navigate("/");
+    } catch (error) {
+      alert(`Error adding document: ${error}`);
+    }
+  };
+
+  function stillWork() {
+    if (document.getElementById("checkbox-end-experience") === true) {
+      document.getElementById("end-experience").disable = true;
+    } else {
+      document.getElementById("end-experience").disable = false;
+    }
+  }
+
   return (
     <div
       id="modal-container"
@@ -20,7 +109,7 @@ const AddExperience = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 p-2 w-full border-bg-primary border-2 border-opacity-25 text-Paragraph rounded-md"
+              className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
               required
             />
           </div>
@@ -30,7 +119,9 @@ const AddExperience = () => {
             </label>
             <input
               type="text"
-              className="mt-1 p-2 w-full border-bg-primary border-2 border-opacity-25 text-Paragraph rounded-md"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
               required
             />
           </div>
@@ -39,7 +130,9 @@ const AddExperience = () => {
               Type
             </label>
             <select
-              className="mt-1 p-2 w-full border-bg-primary border-2 border-opacity-25 text-Paragraph rounded-md"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
               required
             >
               <option value="" disabled>
@@ -57,6 +150,11 @@ const AddExperience = () => {
               Start Date
             </label>
             <input
+              type="month"
+              onChange={(e) => {
+                setStartExperience(e.target.value);
+                console.log(typeof e.target.value);
+              }}
               className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
               required
             />
@@ -77,18 +175,23 @@ const AddExperience = () => {
                 }
               })()}
               onChange={(e) => setEndExperience(e.target.value)}
-              disable
-              className="mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md"
+              disable={isCurrent}
+              className={`mt-1 p-2 w-full border-primary border-2 border-opacity-25 text-Paragraph rounded-md ${
+                isCurrent ? "bg-gray-200" : ""
+              }`}
             />
           </div>
           <div className="mb-4 flex items-center">
             <input
               id="current-experience"
               type="checkbox"
-              className="mr-3 w-5 h-5 text-text-red bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              checked={isCurrent}
+              onChange={handleCheckboxChange}
+              className="mr-3 w-5 h-5"
             />
             <label
               htmlFor="current-experience"
+              onChange={stillWork}
               className="text-sm font-medium text-primary"
             >
               I am currently involved in this role.
@@ -101,21 +204,23 @@ const AddExperience = () => {
             </label>
             <input
               type="file"
+              onChange={(e) => setImage(e.target.files[0])}
               className="mt-1 w-full text-Paragraph"
               required
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end text-secondary">
             <button
               id="button-cancel"
               type="button"
-              className="mr-2 bg-gray-500 text-white px-4 py-2 rounded-md transition hover:bg-gray-700 duration-150 ease-in-out"
+              onClick={handleOutsideClick}
+              className="mr-2 bg-primary px-4 py-2 rounded-md transition hover:bg-gray-700 duration-150 ease-in-out"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-sky-500 text-white px-4 py-2 rounded-md transition hover:bg-sky-800 duration-150 ease-in-out"
+              className="bg-sky-500 px-4 py-2 rounded-md transition hover:bg-sky-800 duration-150 ease-in-out"
             >
               Add Experience
             </button>
