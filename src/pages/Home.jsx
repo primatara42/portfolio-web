@@ -39,7 +39,7 @@ const Home = ({ showAddExperience, showAddProject }) => {
         <About />
       </AnimatedSection>
       {showModalExperience && <AddExperience onClose={handleCloseModal} />}
-      {showModalProject && <AddProjects onClose={handleCloseModal} />}
+      {showModalProject && <AddProject onClose={handleCloseModal} />}
       <AnimatedSection>
         <Experience />
       </AnimatedSection>

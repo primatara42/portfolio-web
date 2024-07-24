@@ -2,17 +2,18 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+// Ambil variabel dari file .env
 const firebaseConfig = {
-  apiKey: "AIzaSyCi7_v7dfDAi71zAg-zah2Ev-O1dpuVQog",
-  authDomain: "portfolio-9bd0a.firebaseapp.com",
-  projectId: "portfolio-9bd0a",
-  storageBucket: "portfolio-9bd0a.appspot.com",
-  messagingSenderId: "268257893332",
-  appId: "1:268257893332:web:ca0407a2caa5c8c7b91441"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
-const storage = getStorage(app)
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-export {db, storage}
+export { db, storage };

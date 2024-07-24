@@ -3,8 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import "./App.css";
 
-
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -25,10 +23,17 @@ const App = () => {
             </>
           }
         />
-        <Route path="/add-project" element={<Home showAddProject={true} />} />
+        <Route
+          path="/add-project"
+          element={
+            <>
+              <Home showAddProject={true} />
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
