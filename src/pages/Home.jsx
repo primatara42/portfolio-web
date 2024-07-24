@@ -8,9 +8,11 @@ import Footer from "../components/Footer.jsx";
 
 import AddExperience from "./AddExperience.jsx";
 import AddProject from "./AddProject.jsx";
+import AnimatedSection from "../components/AnimatedSection.jsx";
 
-const Home = ({showAddExperience, showAddProject}) => {
-  const [showModalExperience, setShowModalExperience] = useState(showAddExperience);
+const Home = ({ showAddExperience, showAddProject }) => {
+  const [showModalExperience, setShowModalExperience] =
+    useState(showAddExperience);
   const [showModalProject, setShowModalProject] = useState(showAddProject);
 
   const handleCloseModal = () => {
@@ -20,14 +22,11 @@ const Home = ({showAddExperience, showAddProject}) => {
 
   useEffect(() => {
     if (showModalExperience || showModalProject) {
-      // Menambahkan kelas ke body untuk mencegah scroll
       document.body.style.overflow = "hidden";
     } else {
-      // Menghapus kelas dari body untuk mengembalikan scroll
       document.body.style.overflow = "unset";
     }
 
-    // Cleanup function untuk mengembalikan overflow saat komponen unmount
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -36,19 +35,23 @@ const Home = ({showAddExperience, showAddProject}) => {
   return (
     <>
       <Header />
-
-      <About />
-
+      <AnimatedSection>
+        <About />
+      </AnimatedSection>
       {showModalExperience && <AddExperience onClose={handleCloseModal} />}
-      {showModalProject && <AddProject onClose={handleCloseModal} />}
-
-      <Experience />
-
-      <Project />
-
-      <Contact />
-
-      <Footer />
+      {showModalProject && <AddProjects onClose={handleCloseModal} />}
+      <AnimatedSection>
+        <Experience />
+      </AnimatedSection>
+      <AnimatedSection>
+        <Project />
+      </AnimatedSection>
+      <AnimatedSection>
+        <Contact />
+      </AnimatedSection>
+      <AnimatedSection>
+        <Footer />
+      </AnimatedSection>
     </>
   );
 };
