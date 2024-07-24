@@ -38,7 +38,7 @@ const Experience = () => {
         <div className="card_container flex flex-wrap gap-20 justify-center">
           {experiences.map((experience, index) => (
             <div className="card w-80 bg-secondary text-primary rounded-md hover:scale-110 ease-in duration-75 cursor-pointer">
-              <div className="title_image w-36 h-36 mx-auto text-center  flex flex-col justify-center">
+              <div className="title_image w-36 h-36 pb-5 mx-auto text-center  flex flex-col justify-center">
                 <img src={experience.imgUrl} alt="" className="w-full" />
               </div>
               <h2 className="text-center text-xl font-semibold md:text-lg px-5 mb-5">
