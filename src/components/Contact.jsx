@@ -2,6 +2,27 @@ import React from "react";
 import contactImageBackground from "../assets/images/contactImageBackground.png";
 
 const Contact = () => {
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    formData.append("access_key", "29ed3f2d-e2d4-449e-a173-8511a6732ecc");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Message Sent Successfully");
+      e.target.reset();
+    } else {
+      console.log("Error", data);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -21,13 +42,14 @@ const Contact = () => {
         <div className=" w-[500px] md:w-[250px] sm:hidden">
           <img src={contactImageBackground} alt="" />
         </div>
-        <form action="" className="w-1/2 md:w-[80%] sm:w-full">
+        <form onSubmit={onSubmit} className="w-1/2 md:w-[80%] sm:w-full">
           <div className="name_input_container my-10 ">
             <label htmlFor="" className="my-3">
               Your Name
             </label>
             <input
               type="text"
+              name="name"
               id="name_input"
               className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-primary"
               required
@@ -35,30 +57,28 @@ const Contact = () => {
           </div>
           <div className="email_input_container my-5">
             <label htmlFor="" className="my-3">
-              Email
+              Your Email
             </label>
             <input
               type="email"
+              name="email"
               id="email_input"
               className="text-text-primary block w-full border-b-text-primary border-b-2 outline-none bg-primary"
-
-             
               required
             />
           </div>
           <div className="message_input_container my-10">
             <label htmlFor="" className="my-3">
-              Message
+              Your Message
             </label>
             <textarea
-              name=""
+              name="message"
               id="message_input"
               className="text-text-primary block w-full h-32 border-b-text-primary border-b-2 outline-none bg-primary md:h-20"
-            
-              
               required
             />
           </div>
+
           <div className="text-center">
             <button
               type="submit"
